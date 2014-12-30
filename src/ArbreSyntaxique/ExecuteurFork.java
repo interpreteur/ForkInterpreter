@@ -18,7 +18,9 @@ import java.util.StringTokenizer;
 public class ExecuteurFork {
     
     private String ide;
+    private int pidFork;
     private String cmdFork;
+    
     
     
     
