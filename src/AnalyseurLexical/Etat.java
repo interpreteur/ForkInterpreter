@@ -414,6 +414,14 @@ public abstract class Etat {
         return messageException.equalsIgnoreCase(Constante.aliasing);
     }
     
+    public boolean estUnFork(String messageException){
+        return messageException.equalsIgnoreCase(Constante.creationProcessus);
+    }
+    
+    public boolean estUnWait(String messageException){
+        return messageException.equalsIgnoreCase(Constante.attenteProcessus);
+    }
+    
     public boolean estUneAccoladeOuvrante(Character car){
         return car == 123;
     }
