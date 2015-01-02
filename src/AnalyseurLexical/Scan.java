@@ -20,6 +20,9 @@ public class Scan {
     
     public static int COMPTEUR_WHILE = 0;
     
+    public static int COMPTEUR_FORK = 0;
+    public static int COMPTEUR_WAIT = 0;
+    
     public Scan(){
     }
     
