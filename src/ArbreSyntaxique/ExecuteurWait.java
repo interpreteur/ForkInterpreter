@@ -18,6 +18,22 @@ public class ExecuteurWait {
     private String ide;
     private Expression exp;
     private String cmdWait;
+
+    public ExecuteurWait(String cmdWait) {
+        this.cmdWait = cmdWait;
+    }
+
+    public String getIde() {
+        return ide;
+    }
+
+    public Expression getExp() {
+        return exp;
+    }
+
+    public String getCmdWait() {
+        return cmdWait;
+    }
     
     
     
