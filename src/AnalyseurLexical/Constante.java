@@ -16,4 +16,6 @@ public class Constante {
     public static String declarationVariable  = "Declaration de variable";
     public static String aliasing = "Aliasing"; 
     public static String declarationOuAliasing = "Declaration ou Aliasing";
+    public static String creationProcessus = "Creation de processus";
+    public static String attenteProcessus = "Wait";
 }
