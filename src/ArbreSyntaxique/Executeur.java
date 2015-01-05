@@ -748,7 +748,18 @@ public class Executeur {
         mot = enleverEspacesDans(mot); // permet d'enlever les espaces AVANT ou APRES le mot lu
         
         if ( estUnIDE(mot) ){
+            int indexPointEgal = commande.indexOf(":=");
+            int indexParentheseOuvrante = commande.indexOf("(");
+            String verif = commande.substring(indexPointEgal+2, indexParentheseOuvrante);
+            if (verif.equalsIgnoreCase("fork")){
+                return Constante.creationProcessus;
+            }
+            else if(verif.equalsIgnoreCase("wait")){
+                return Constante.attenteProcessus;
+            }
             return Constante.assignation;
+            
+            
         }else{
             if(mot.equalsIgnoreCase("if")){
                 return Constante.conditionelle;
