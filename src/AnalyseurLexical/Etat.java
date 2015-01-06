@@ -22,8 +22,6 @@ public abstract class Etat {
         this.typeCommande = typeCommande;
         this.expr = expr;
     }
-
-    
     
     /**
      * permet de reconnaitre un COM ou  BEXP ou  IDE ou  NUM, etc........
@@ -57,7 +55,6 @@ public abstract class Etat {
     public void setEtatPrecedent(Etat etatPrecedent) {
         this.etatPrecedent = etatPrecedent;
     }
-
     
     /**
      * Teste si un caractere quelconque, est un chiffre
@@ -74,7 +71,6 @@ public abstract class Etat {
         }
     }
     
-    
     /**
      * permet de tester si, un caractere quelconque est une lettre de l'alphabet
      * @param car
@@ -90,8 +86,6 @@ public abstract class Etat {
         }
         return false;
     }
-    
-    
     
     /**
      * test si un caractere est egale au caractere ( : )
@@ -133,8 +127,6 @@ public abstract class Etat {
         }
     }
     
-    
-    
     /**
      * permet de lire un mot
      * @param instruction
@@ -152,7 +144,6 @@ public abstract class Etat {
         }
         return sb.toString();
     }
-    
     
     public String lireMotEnAvance(String instruction){
         StringBuilder sb = new StringBuilder();
