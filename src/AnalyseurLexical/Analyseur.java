@@ -23,6 +23,8 @@ public class Analyseur {
         Scan.COMPTEUR_IF = 0;
         Scan.COMPTEUR_THEN = 0;
         Scan.COMPTEUR_WHILE = 0;
+        Scan.COMPTEUR_FORK = 0;
+        Scan.COMPTEUR_WAIT = 0;
     }
     
     
