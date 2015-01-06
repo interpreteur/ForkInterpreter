@@ -5,38 +5,32 @@
  */
 package ArbreSyntaxique;
 
-
-import static ArbreSyntaxique.Executeur.environnement;
 import Exceptions.ExceptionVariableNonDeclaree;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
 /**
  *
- * @author abdoulaye
+ * @author Abdoulaye
  */
-/*
 public class ExecuteurFork extends Executeur{
-    
     private String ide;
-    private Expression Code;
     private String cmdFork;
 
+    public ExecuteurFork() {
+    }
+
+    public ExecuteurFork(String cmdFork) {
+        this.cmdFork = cmdFork;
+    }
+
+    
     public String getIde() {
         return ide;
     }
 
     public void setIde(String ide) {
         this.ide = ide;
-    }
-
-    public Expression getCode() {
-        return Code;
-    }
-
-    public void setCode(Expression Code) {
-        this.Code = Code;
     }
 
     public String getCmdFork() {
@@ -47,29 +41,14 @@ public class ExecuteurFork extends Executeur{
         this.cmdFork = cmdFork;
     }
     
-    public void executeurFork(){
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Commande : ");
-        String entree = sc.nextLine();
-
-        int index2PointEgale = entree.indexOf(":=");
-        int debut = index2PointEgale+2;
-        int fin = entree.length();
-        String str = entree.substring(debut, fin);
-
-        if (str.compareToIgnoreCase(" fork()")== 0){
-            System.out.println(entree);
-            String a = entree.substring(0, index2PointEgale);
-            this.setIde(a);
-            
-            
-            
-        }
-        else{
-            System.out.println("error");
-        }
+    public void executerFork(String cmdFork) throws ExceptionVariableNonDeclaree{
+        ArrayList<String> decomp = decomposerFork(cmdFork);
+        this.ide = extraireIDE(decomp);
+        String fork = extraireFork(decomp);
+        int valeurFork = calculer(fork);
+        //permet d'ajouter l'IDE dans l'environnement
+        //ajouterVariable_Environnement(ide, valeurExpr);
     }
-    
     
     public ArrayList<String> decomposerFork(String cmdFork){
         ArrayList<String> listDecomp = new ArrayList();
@@ -83,13 +62,24 @@ public class ExecuteurFork extends Executeur{
         return listDecomp;
     }
     
-    
     public String extraireIDE(ArrayList<String> listDecomp){
         String ideEspace = listDecomp.get(0);// le premier element est toujours l'IDE
         String ideSansEspace  = enleverEspacesDans(ideEspace);
         return ideSansEspace; 
     }
     
+    public String extraireFork( ArrayList<String> listDecomp){
+        String forkEspace = listDecomp.get(1);
+        String forkSansEspace = enleverEspacesDans(forkEspace); // on enleve les espaces dans l'expression
+        return forkSansEspace;
+    }
     
     
+    public void calculToken() throws ExceptionVariableNonDeclaree{
+       
+    }
+    
+    public int calculer(String expr) throws ExceptionVariableNonDeclaree{
+        return 0;
+    }
 }
