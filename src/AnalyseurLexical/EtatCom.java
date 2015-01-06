@@ -75,6 +75,16 @@ public class EtatCom  extends Etat {
                 }  
                 
             }else if (estUnMotReserve(mot) ){ // si c'est un mot réservé
+                if( mot.equalsIgnoreCase("fork") ){
+                    Scan.COMPTEUR_FORK++;  // lecture d'un fork
+                    enleverLesEspaces(instruction);
+                    car = Scan.charAt(Scan.INDEX, instruction);
+                    if (estUneParentheseOuvrante(car)){  // Si il ya une parenthese apres le IF alors 
+                        //System.out.println("yoooooyoyoyoyoyoo");
+                        EtatParentheseOuvrante po = new EtatParentheseOuvrante(this, Constante.conditionelle, null);
+                        return po.reconnaitre(instruction);
+                    }
+                }else
                 if( mot.equalsIgnoreCase("if") ){
                     Scan.COMPTEUR_IF++;  // lecture d'un IF
                     enleverLesEspaces(instruction);
@@ -174,13 +184,24 @@ public class EtatCom  extends Etat {
                         throw new GrammaireException("Declaration ou Aliasing");
                     }
                 }
+                else if(mot.equalsIgnoreCase("wait")){
+                    Scan.COMPTEUR_WAIT++;
+                    enleverLesEspaces(instruction);
+                    car = Scan.charAt(Scan.INDEX, instruction);
+                    if (estUneParentheseOuvrante(car)){  // Si il ya une parenthese apres le IF alors 
+                        //System.out.println("yoooooyoyoyoyoyoo");
+                        EtatParentheseOuvrante po = new EtatParentheseOuvrante(this, Constante.conditionelle, null);
+                        return po.reconnaitre(instruction);
+                    }
+                }
             }
         }
         if(enFinDeMot(instruction) ){
             if( ! estPointVirgule(car) ){
                 if(Scan.COMPTEUR_LetEnd==0  && Scan.COMPTEUR_accolade==0 
                         && Scan.COMPTEUR_parenthese==0 && Scan.COMPTEUR_IF==0
-                    && Scan.COMPTEUR_THEN==0 && Scan.COMPTEUR_WHILE==0){  //permet de tester si, les LET et END sont bien mis
+                        && Scan.COMPTEUR_THEN==0 && Scan.COMPTEUR_WHILE==0 
+                        && Scan.COMPTEUR_FORK==0 && Scan.COMPTEUR_WAIT==0){  //permet de tester si, les LET et END sont bien mis
                     return "---Commande Reconnu---";
                 }else{
                     throw new GrammaireException(getTypeCommande());
