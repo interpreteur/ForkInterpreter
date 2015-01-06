@@ -78,13 +78,23 @@ public class Executeur {
         
         String typeCmd = getTypeCommande(seqCmd);
         
-        
+        if (isForkCommande(typeCmd)){
+            ptVirguleCmd = extraireFork(seqCmd);
+            indexPV = ptVirguleCmd.getIndexPointVirgule();
+            ExecuteurFork execFk = (ExecuteurFork)ptVirguleCmd.getExecuteur();
+            execFk.executerFork(execFk.getCmdFork());
+            if ( indexPV != -1) {
+                String subAss = seqCmd.substring(indexPV+1); // permet de recuperer la suite de la commande
+                Executeur exec = new Executeur();  // on instancie un nouvelle executeur de commande pour cette nouvelle commande
+                exec.executer(subAss);
+            }
+        }else
         if( isAssignationCommande(typeCmd) ){
             ptVirguleCmd = extraireAssignation(seqCmd);
             indexPV = ptVirguleCmd.getIndexPointVirgule();
             ExecuteurAssignation execAss = (ExecuteurAssignation)ptVirguleCmd.getExecuteur();
             execAss.executerAssignation(execAss.getCmdAssignation());  // execution de la commande qui est avant le point Virgule
-            if ( indexPV != -1) {
+            if ( indexPV != -1 ) {
                 String subAss = seqCmd.substring(indexPV+1); // permet de recuperer la suite de la commande
                 Executeur exec = new Executeur();  // on instancie un nouvelle executeur de commande pour cette nouvelle commande
                 exec.executer(subAss);
@@ -170,6 +180,35 @@ public class Executeur {
         return ptVirguleCmd;
     }
     
+    
+    public SequenceCommande extraireFork(String seqCmd){
+        ExecuteurFork execB;
+        SequenceCommande ptVirguleCmd;
+        
+        int indexPointVirgule = seqCmd.indexOf(";");
+        if (indexPointVirgule !=-1){
+            String subCmd = seqCmd.substring(0, indexPointVirgule);
+            if (contientMotReserve(subCmd) || subCmd.contains("}")){
+                int indexAccF = subCmd.indexOf("}");
+                if (indexAccF != -1) {
+                    if (indexAccF < indexPointVirgule) {
+                        subCmd = subCmd.substring(0, indexAccF);
+                    }else{
+                        subCmd = subCmd.substring(0, indexPointVirgule);
+                    }
+                }
+            }
+            execB = new ExecuteurFork(subCmd);
+            ptVirguleCmd = new SequenceCommande(indexPointVirgule, execB);
+        }
+        else{
+            execB = new ExecuteurFork(seqCmd);
+            ptVirguleCmd = new SequenceCommande(-1, execB);
+        }
+        return ptVirguleCmd;
+    }
+    
+ 
     public SequenceCommande extraireIteration(String seqCmd){
         String BExp, Com;
         Compteur compteurIndex = new Compteur(0);
@@ -748,15 +787,22 @@ public class Executeur {
         mot = enleverEspacesDans(mot); // permet d'enlever les espaces AVANT ou APRES le mot lu
         
         if ( estUnIDE(mot) ){
+            String motReserve = lireIDE(compteurIndex, commande); // On lit le mot reserve fork
+            motReserve = enleverEspacesDans(motReserve);
+            
+            /*
             int indexPointEgal = commande.indexOf(":=");
             int indexParentheseOuvrante = commande.indexOf("(");
             String verif = commande.substring(indexPointEgal+2, indexParentheseOuvrante);
-            if (verif.equalsIgnoreCase("fork")){
+            */
+            
+            if (motReserve.equalsIgnoreCase("fork")){
                 return Constante.creationProcessus;
             }
-            else if(verif.equalsIgnoreCase("wait")){
+            else if(motReserve.equalsIgnoreCase("wait")){
                 return Constante.attenteProcessus;
             }
+            
             return Constante.assignation;
             
             
@@ -892,6 +938,14 @@ public class Executeur {
         return typeCommande.equalsIgnoreCase(Constante.declarationVariable);
     }
     
+    
+    public boolean isForkCommande(String typeCommande){
+        return typeCommande.equalsIgnoreCase(Constante.creationProcessus);
+    }
+    
+    public boolean isWaitCommande(String typeCommande){
+        return typeCommande.equalsIgnoreCase(Constante.attenteProcessus);
+    }
     
     
     /**
